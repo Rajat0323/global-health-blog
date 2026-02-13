@@ -44,9 +44,3 @@ def save_post(keyword, content):
                 f.write(link + "\n")
 
     return slug
-
-
-def push_to_github():
-    os.system("git add .")
-    os.system("git commit -m \"Automated blog post\" || echo No changes")
-    os.system("git push")

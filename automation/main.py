@@ -26,7 +26,7 @@ def main():
 
     log_keyword(keyword)
     generate_sitemap()
-    push_to_github()
+  
 
     print("Published:", slug)
 
