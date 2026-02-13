@@ -1,6 +1,7 @@
 import os
 from datetime import datetime
 from config import POST_FOLDER, DOMAIN
+from image_generator import get_image
 
 
 def find_related_posts(keyword):
@@ -22,14 +23,18 @@ def save_post(keyword, content):
     filepath = os.path.join(POST_FOLDER, f"{slug}.md")
 
     related_links = find_related_posts(keyword)
+    image_url = get_image(keyword) or ""
 
     with open(filepath, "w", encoding="utf-8") as f:
         f.write("---\n")
         f.write(f"title: \"{keyword.title()}\"\n")
         f.write(f"date: \"{datetime.now().isoformat()}\"\n")
         f.write(f"slug: \"{slug}\"\n")
-        f.write("---\n\n")
 
+        if image_url:
+            f.write(f"image: \"{image_url}\"\n")
+
+        f.write("---\n\n")
         f.write(content)
 
         if related_links:
