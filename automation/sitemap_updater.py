@@ -2,9 +2,11 @@ import os
 from config import POST_FOLDER, DOMAIN
 
 def generate_sitemap():
-    public_folder = os.path.join("..", "public")
+    # Get project root directory
+    base_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+    public_folder = os.path.join(base_dir, "public")
 
-    # Create public folder if not exists
+    # Ensure public folder exists
     os.makedirs(public_folder, exist_ok=True)
 
     urls = []
