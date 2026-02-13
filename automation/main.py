@@ -1,7 +1,7 @@
 from keyword_generator import get_random_keyword
 from duplicate_checker import is_duplicate
 from ai_writer import generate_article
-from publisher import save_post, push_to_github
+from publisher import save_post
 from sitemap_updater import generate_sitemap
 from config import LOG_FILE
 import csv
