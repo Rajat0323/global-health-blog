@@ -19,6 +19,7 @@ def find_related_posts(keyword):
 
 
 def save_post(keyword, content):
+    os.makedirs(POST_FOLDER, exist_ok=True)  # ADD THIS
     slug = keyword.lower().replace(" ", "-")
     filepath = os.path.join(POST_FOLDER, f"{slug}.md")
 
