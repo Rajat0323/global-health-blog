@@ -3,7 +3,9 @@ from config import POST_FOLDER, DOMAIN
 
 def generate_sitemap():
     public_folder = os.path.join("..", "public")
-    os.makedirs(public_folder, exist_ok=True)  # Create folder if missing
+
+    # Create public folder if not exists
+    os.makedirs(public_folder, exist_ok=True)
 
     urls = []
 
