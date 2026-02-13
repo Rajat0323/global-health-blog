@@ -1,14 +1,21 @@
-import subprocess
-from config import MODEL_NAME
+import requests
+import os
+
+HF_API_URL = "https://api-inference.huggingface.co/models/mistralai/Mistral-7B-Instruct-v0.2"
+HF_TOKEN = os.getenv("HF_TOKEN")
+
+headers = {
+    "Authorization": f"Bearer {HF_TOKEN}"
+}
 
 def generate_article(keyword):
     prompt = f"""
-    Write a 1200-word SEO optimized global health article.
+    Write a 1000-word SEO optimized global health article.
 
     Topic: {keyword}
 
     Include:
-    - H1
+    - H1 title
     - H2 headings
     - Bullet points
     - 5 FAQs
@@ -16,10 +23,16 @@ def generate_article(keyword):
     - References section
     """
 
-    result = subprocess.run(
-        ["ollama", "run", MODEL_NAME, prompt],
-        capture_output=True,
-        text=True
-    )
+    payload = {
+        "inputs": prompt,
+        "parameters": {
+            "max_new_tokens": 1500
+        }
+    }
 
-    return result.stdout
+    response = requests.post(HF_API_URL, headers=headers, json=payload)
+
+    if response.status_code == 200:
+        return response.json()[0]["generated_text"]
+    else:
+        return f"# {keyword}\n\nError generating content."

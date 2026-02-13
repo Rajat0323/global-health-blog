@@ -20,9 +20,11 @@ jobs:
 
       - name: Install dependencies
         run: |
-          pip install feedparser requests sentence-transformers
+          pip install feedparser requests
 
       - name: Run Automation Script
+        env:
+          HF_TOKEN: ${{ secrets.HF_TOKEN }}
         run: |
           cd automation
           python main.py
