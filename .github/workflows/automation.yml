@@ -6,25 +6,20 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-
     permissions:
       contents: write
 
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v3
+      - uses: actions/checkout@v3
         with:
           persist-credentials: true
-          fetch-depth: 0
 
-      - name: Setup Python
-        uses: actions/setup-python@v4
+      - uses: actions/setup-python@v4
         with:
           python-version: '3.10'
 
       - name: Install dependencies
-        run: |
-          pip install feedparser requests
+        run: pip install feedparser requests
 
       - name: Run Automation Script
         env:
@@ -34,10 +29,10 @@ jobs:
           cd automation
           python main.py
 
-      - name: Commit and Push Changes
+      - name: Commit changes
         run: |
-          git config user.email "actions@github.com"
           git config user.name "github-actions"
+          git config user.email "actions@github.com"
           git add .
           git commit -m "Automated blog post" || exit 0
           git push
