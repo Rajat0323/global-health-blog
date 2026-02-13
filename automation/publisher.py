@@ -23,7 +23,8 @@ def save_post(keyword, content):
     filepath = os.path.join(POST_FOLDER, f"{slug}.md")
 
     related_links = find_related_posts(keyword)
-    image_url = get_image(keyword) or ""   # ✅ SAFE LINE
+    image_url = ""
+  # ✅ SAFE LINE
 
     with open(filepath, "w", encoding="utf-8") as f:
         # -------- FRONT MATTER --------
