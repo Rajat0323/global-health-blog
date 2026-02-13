@@ -22,12 +22,14 @@ jobs:
         run: |
           pip install feedparser requests
 
-      - name: Run Automation Script
+            - name: Run Automation Script
         env:
           HF_TOKEN: ${{ secrets.HF_TOKEN }}
+          UNSPLASH_KEY: ${{ secrets.UNSPLASH_KEY }}
         run: |
           cd automation
           python main.py
+
 
       - name: Commit and Push Changes
         run: |

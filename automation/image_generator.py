@@ -1,19 +1,31 @@
 import requests
-from config import POST_FOLDER
+import os
 
-UNSPLASH_ACCESS_KEY = "YOUR_UNSPLASH_KEY"
+UNSPLASH_ACCESS_KEY = os.getenv("UNSPLASH_KEY")
 
 def get_image(keyword):
-    url = f"https://api.unsplash.com/search/photos"
+    if not UNSPLASH_ACCESS_KEY:
+        return None
+
+    url = "https://api.unsplash.com/search/photos"
     params = {
         "query": keyword,
         "client_id": UNSPLASH_ACCESS_KEY,
         "per_page": 1
     }
 
-    res = requests.get(url, params=params).json()
+    try:
+        response = requests.get(url, params=params, timeout=10)
 
-    if res["results"]:
-        return res["results"][0]["urls"]["regular"]
+        if response.status_code != 200:
+            return None
 
-    return None
+        data = response.json()
+
+        if "results" in data and len(data["results"]) > 0:
+            return data["results"][0]["urls"]["regular"]
+
+        return None
+
+    except Exception:
+        return None
