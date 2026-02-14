@@ -11,8 +11,6 @@ jobs:
 
     steps:
       - uses: actions/checkout@v3
-        with:
-          persist-credentials: true
 
       - uses: actions/setup-python@v4
         with:
@@ -28,5 +26,3 @@ jobs:
         run: |
           cd automation
           python main.py
-
-      
