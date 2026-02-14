@@ -29,10 +29,4 @@ jobs:
           cd automation
           python main.py
 
-      - name: Commit changes
-        run: |
-          git config user.name "github-actions"
-          git config user.email "actions@github.com"
-          git add .
-          git commit -m "Automated blog post" || exit 0
-          git push
+      
