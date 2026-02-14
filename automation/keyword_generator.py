@@ -1,25 +1,17 @@
-import os
-import csv
-from config import KEYWORD_FILE, LOG_FILE
+import random
+from config import KEYWORD_FILE
 
-def get_next_keyword():
-    # Load all keywords
-    with open(KEYWORD_FILE, "r", encoding="utf-8") as f:
-        keywords = [k.strip() for k in f.readlines() if k.strip()]
+def get_random_keyword():
+    try:
+        with open(KEYWORD_FILE, "r", encoding="utf-8") as f:
+            keywords = [line.strip() for line in f if line.strip()]
 
-    processed = []
+        if not keywords:
+            print("No keywords found.")
+            return None
 
-    # Load processed keywords if file exists
-    if os.path.exists(LOG_FILE):
-        with open(LOG_FILE, "r", encoding="utf-8") as f:
-            reader = csv.reader(f)
-            for row in reader:
-                if row:
-                    processed.append(row[0].strip())
+        return random.choice(keywords)
 
-    # Find first unused keyword
-    for keyword in keywords:
-        if keyword not in processed:
-            return keyword
-
-    return None
+    except Exception as e:
+        print("Keyword loading error:", e)
+        return None
