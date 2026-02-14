@@ -29,6 +29,9 @@ jobs:
         run: |
           cd automation
           python main.py
+          echo "------ FILE STRUCTURE AFTER SCRIPT ------"
+          cd ..
+          ls -R
 
       - name: Commit and Push
         run: |
