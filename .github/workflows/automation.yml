@@ -13,7 +13,43 @@ jobs:
       - uses: actions/checkout@v3
 
       - uses: actions/setup-python@v4
+        with:name: Health Blog Automation
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - uses: actions/setup-python@v4
         with:
+          python-version: '3.10'
+
+      - name: Install dependencies
+        run: pip install feedparser requests
+
+      - name: Run Automation Script
+        env:
+          HF_TOKEN: ${{ secrets.HF_TOKEN }}
+          UNSPLASH_KEY: ${{ secrets.UNSPLASH_KEY }}
+        run: |
+          cd automation
+          python main.py
+
+      - name: Commit and Push
+        run: |
+          git config user.name "github-actions"
+          git config user.email "actions@github.com"
+          git add .
+          git commit -m "Automated blog post" || exit 0
+          git push
+
           python-version: '3.10'
 
       - name: Install dependencies
