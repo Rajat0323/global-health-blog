@@ -20,12 +20,12 @@ def generate_article(keyword):
     Topic: {keyword}
 
     Include:
-    - H1 title
-    - H2 headings
-    - Bullet points
-    - 5 FAQs
-    - Medical disclaimer
-    - References section
+    - Include LSI keywords naturally
+    - Use emotional but trustworthy headline
+    - Make H1 properly formatted
+    - Write compelling intro with hook
+    - Add SEO meta description at top
+
     """
 
     data = {
