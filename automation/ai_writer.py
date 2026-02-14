@@ -1,19 +1,25 @@
 import requests
 import os
-import time
 
-HF_API_URL = "https://api-inference.huggingface.co/models/mistralai/Mistral-7B-Instruct-v0.2"
-HF_TOKEN = os.getenv("HF_TOKEN")
-
-headers = {
-    "Authorization": f"Bearer {HF_TOKEN}"
-}
+GROQ_API_KEY = os.getenv("GROQ_API_KEY")
 
 def generate_article(keyword):
-    if not HF_TOKEN:
-        return f"# {keyword}\n\nHF_TOKEN not found."
+    if not GROQ_API_KEY:
+        return f"# {keyword}\n\nGROQ_API_KEY not found."
 
-    prompt = f"""
+    url = "https://api.groq.com/openai/v1/chat/completions"
+
+    headers = {
+        "Authorization": f"Bearer {GROQ_API_KEY}",
+        "Content-Type": "application/json"
+    }
+
+    payload = {
+        "model": "llama3-70b-8192",
+        "messages": [
+            {
+                "role": "user",
+                "content": f"""
 Write a 1000-word SEO optimized global health article.
 
 Topic: {keyword}
@@ -26,45 +32,18 @@ Include:
 - Medical disclaimer
 - References section
 """
-
-    payload = {
-        "inputs": prompt,
-        "parameters": {
-            "max_new_tokens": 1200,
-            "temperature": 0.7
-        }
+            }
+        ],
+        "temperature": 0.7
     }
 
     try:
-        response = requests.post(
-            HF_API_URL,
-            headers=headers,
-            json=payload,
-            timeout=60
-        )
-
-        # If model is loading
-        if response.status_code == 503:
-            time.sleep(10)
-            response = requests.post(
-                HF_API_URL,
-                headers=headers,
-                json=payload,
-                timeout=60
-            )
+        response = requests.post(url, headers=headers, json=payload, timeout=60)
 
         if response.status_code == 200:
-            data = response.json()
+            return response.json()["choices"][0]["message"]["content"]
 
-            # HF sometimes returns list
-            if isinstance(data, list) and "generated_text" in data[0]:
-                return data[0]["generated_text"]
-
-            # Sometimes returns dict with error
-            if isinstance(data, dict) and "error" in data:
-                return f"# {keyword}\n\nModel error: {data['error']}"
-
-        return f"# {keyword}\n\nFailed to generate content."
+        return f"# {keyword}\n\nAPI Error: {response.text}"
 
     except Exception as e:
-        return f"# {keyword}\n\nException occurred: {str(e)}"
+        return f"# {keyword}\n\nException: {str(e)}"
