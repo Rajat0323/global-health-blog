@@ -6,6 +6,14 @@ from sitemap_updater import generate_sitemap
 from config import LOG_FILE
 import csv
 from datetime import datetime
+from keyword_generator import get_next_keyword
+
+keyword = get_next_keyword()
+
+if not keyword:
+    print("No new keywords available.")
+    exit()
+
 
 def log_keyword(keyword):
     with open(LOG_FILE, "a", newline="", encoding="utf-8") as f:
