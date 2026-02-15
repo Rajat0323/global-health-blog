@@ -1,6 +1,10 @@
 import Head from 'next/head'
+import Header from '../../components/Header'
 import { getAllPostSlugs, getPostData } from '../../lib/posts'
 
+/**
+ * ✅ REQUIRED for dynamic routes
+ */
 export async function getStaticPaths() {
   const paths = getAllPostSlugs()
 
@@ -10,6 +14,9 @@ export async function getStaticPaths() {
   }
 }
 
+/**
+ * ✅ Fetch single post
+ */
 export async function getStaticProps({ params }) {
   const postData = await getPostData(params.slug)
 
@@ -21,7 +28,8 @@ export async function getStaticProps({ params }) {
 }
 
 export default function Post({ postData }) {
-  const formattedDate = new Date(postData.date).toLocaleDateString('en-IN', {
+  // ✅ Locale fixed (SSR + Client same)
+  const formattedDate = new Date(postData.date).toLocaleDateString('en-GB', {
     year: 'numeric',
     month: 'long',
     day: 'numeric',
@@ -34,19 +42,34 @@ export default function Post({ postData }) {
         <meta name="description" content={postData.description} />
       </Head>
 
+      {/* ✅ HEADER NOW VISIBLE ON BLOG PAGE */}
+      <Header />
+
       <main
         style={{
           maxWidth: '820px',
-          margin: '60px auto',
+          margin: '40px auto',
           padding: '20px',
           fontFamily: 'Georgia, serif',
         }}
       >
-        <h1 style={{ color: '#0a4fa3', fontSize: '38px', lineHeight: '1.3' }}>
+        <h1
+          style={{
+            color: '#0a4fa3',
+            fontSize: '38px',
+            lineHeight: '1.3',
+          }}
+        >
           {postData.title}
         </h1>
 
-        <p style={{ color: '#777', fontSize: '14px', marginTop: '10px' }}>
+        <p
+          style={{
+            color: '#777',
+            fontSize: '14px',
+            marginTop: '8px',
+          }}
+        >
           Published on {formattedDate}
         </p>
 
@@ -57,7 +80,9 @@ export default function Post({ postData }) {
             fontSize: '18px',
             color: '#333',
           }}
-          dangerouslySetInnerHTML={{ __html: postData.contentHtml }}
+          dangerouslySetInnerHTML={{
+            __html: postData.contentHtml,
+          }}
         />
       </main>
     </>
