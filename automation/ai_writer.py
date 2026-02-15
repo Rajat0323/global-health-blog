@@ -6,7 +6,6 @@ GROQ_API_KEY = os.getenv("GROQ_API_KEY")
 
 def generate_article(keyword):
 
-    # If API key missing
     if not GROQ_API_KEY:
         return f"# {keyword}\n\nGROQ_API_KEY not found."
 
@@ -17,67 +16,115 @@ def generate_article(keyword):
         "Content-Type": "application/json"
     }
 
-    # 🔥 ADVANCED SEO PROMPT
+    # ✅ FINAL STRUCTURED + SAFE PROMPT
     prompt = f"""
 You are a professional medical SEO content writer.
 
-Write a 1200–1500 word highly SEO optimized health article.
+STRICT MARKDOWN RULES (VERY IMPORTANT):
+1. Headings must be on their OWN line only.
+2. Never write paragraph text on the same line as a heading.
+3. Always leave ONE blank line after every heading.
+4. Use proper Markdown:
+   - # for H1 (only once)
+   - ## for H2
+   - ### for FAQ questions
+   - - for bullet points
+5. Do NOT repeat the title inside paragraphs.
+6. Do NOT include timestamps or AI mentions.
+7. Keep paragraphs short (2–3 lines max).
+8. Content must look clean when rendered as HTML.
 
-PRIMARY KEYWORD: {keyword}
+ARTICLE REQUIREMENTS:
+- Word count: 1200–1500 words
+- Primary keyword: {keyword}
+- Use keyword naturally (6–8 times)
+- Include keyword in first 100 words
+- Medical accuracy is mandatory
 
-STRICT RULES:
+OUTPUT FORMAT (FOLLOW EXACTLY):
 
-1. H1 must be EXACTLY: {keyword}
-2. Use the primary keyword naturally at least 7 times.
-3. Include the keyword in the first 100 words.
-4. Write short paragraphs (2-3 lines max).
-5. Use bullet points where helpful.
-6. Immediately after H1, write a 40-50 word direct answer summary optimized for Google Featured Snippet.
-7. Add medically accurate, trustworthy information.
-8. Add a clear "When to See a Doctor" section.
-9. Add 5 SEO optimized FAQs (H3 format).
-10. Add a Medical Disclaimer section.
-11. Add References from trusted sources (WHO, CDC, NIH, Mayo Clinic).
-12. Do NOT mention AI.
-
-STRUCTURE FORMAT:
+---
+title: "{keyword}"
+date: "2026-02-14"
+description: "Learn about {keyword}, including symptoms, causes, treatment options, and when to see a doctor."
+---
 
 # {keyword}
 
-(40-50 word direct answer summary)
+Write a 40–50 word direct answer summary optimized for Google Featured Snippet.
 
 ## What Is {keyword}?
 
+Write a clear explanation paragraph.
+
 ## Causes of {keyword}
+
+- Cause 1
+- Cause 2
+- Cause 3
 
 ## Symptoms of {keyword}
 
+- Symptom 1
+- Symptom 2
+- Symptom 3
+
 ## Risk Factors
+
+Explain briefly in bullet points.
 
 ## When to See a Doctor
 
+Explain clearly.
+
 ## Diagnosis
+
+Explain briefly.
 
 ## Treatment Options
 
+Explain treatment options clearly.
+
 ## Prevention Tips
+
+Provide practical prevention tips.
 
 ## Frequently Asked Questions
 
-(5 FAQs in ### format)
+### What is the main cause of {keyword}?
+Answer clearly.
+
+### How serious is {keyword}?
+Answer clearly.
+
+### Can {keyword} be treated at home?
+Answer clearly.
+
+### How long does {keyword} last?
+Answer clearly.
+
+### Who is most at risk of {keyword}?
+Answer clearly.
 
 ## Medical Disclaimer
 
+This article is for informational purposes only and does not substitute professional medical advice.
+
 ## References
+
+- World Health Organization (WHO)
+- Centers for Disease Control and Prevention (CDC)
+- National Institutes of Health (NIH)
+- Mayo Clinic
 """
 
     data = {
-        "model": "llama-3.1-8b-instant",  # Updated stable model
+        "model": "llama-3.1-8b-instant",
         "messages": [
             {"role": "user", "content": prompt}
         ],
-        "temperature": 0.7,
-        "max_tokens": 2000
+        "temperature": 0.6,
+        "max_tokens": 2200
     }
 
     try:
