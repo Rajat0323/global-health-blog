@@ -42,6 +42,11 @@ def main():
 
     print("Published:", slug)
 
+from indexnow import submit_indexnow
+
+# After publish
+new_url = f"https://symptomsinsight.com/{slug}"
+submit_indexnow([new_url])
 
 if __name__ == "__main__":
     main()
