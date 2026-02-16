@@ -1,6 +1,6 @@
 import requests
 
-INDEXNOW_KEY = "a1b2c3d4e5f6g7h8i9"
+INDEXNOW_KEY = "15157af883b6445882e166de447632c7"
 SITE_URL = "https://symptomsinsight.com"
 
 def submit_indexnow(urls):
