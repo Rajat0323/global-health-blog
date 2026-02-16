@@ -2,7 +2,6 @@ from keyword_generator import get_next_keyword
 from duplicate_checker import is_duplicate
 from ai_writer import generate_article
 from publisher import save_post
-from sitemap_updater import generate_sitemap
 from config import LOG_FILE
 import csv
 from datetime import datetime
@@ -38,8 +37,8 @@ def main():
     # Log keyword
     log_keyword(keyword)
 
-    # Regenerate sitemap
-    generate_sitemap()
+    # ❌ STATIC SITEMAP REMOVED
+    # Dynamic sitemap handled by Next.js (pages/sitemap.xml.js)
 
     print("Published:", slug)
 
