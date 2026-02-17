@@ -45,7 +45,7 @@ def main():
 from indexnow import submit_indexnow
 
 # After publish
-new_url = f"https://symptomsinsight.com/{slug}"
+new_url = f"https://symptomsinsight.com/blog/{slug}"
 submit_indexnow([new_url])
 
 if __name__ == "__main__":
