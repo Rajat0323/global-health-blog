@@ -27,9 +27,9 @@ def main():
         return
 
     # Check duplicate safety
-    if is_duplicate(keyword):
-        print("Duplicate keyword. Skipping...")
-        return
+    #if is_duplicate(keyword):
+     #   print("Duplicate keyword. Skipping...")
+      #  return
 
     print("Generating article for:", keyword)
 

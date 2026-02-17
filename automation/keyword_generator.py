@@ -16,17 +16,22 @@ def get_processed_keywords():
     return processed
 
 
+
+BASE_DIR = os.path.dirname(os.path.dirname(__file__))
+KEYWORDS_FILE = os.path.join(BASE_DIR, "keywords.txt")
+
 def get_next_keyword():
-    if not os.path.exists(KEYWORD_FILE):
-        print("Keyword file not found.")
+    with open(KEYWORDS_FILE, "r", encoding="utf-8") as f:
+        keywords = [k.strip() for k in f if k.strip()]
+
+    if not keywords:
         return None
 
-    processed = get_processed_keywords()
+    next_keyword = keywords[0]
 
-    with open(KEYWORD_FILE, "r", encoding="utf-8") as f:
-        for line in f:
-            keyword = line.strip()
-            if keyword and keyword.lower() not in processed:
-                return keyword
+    # 🔥 REMOVE USED KEYWORD
+    with open(KEYWORDS_FILE, "w", encoding="utf-8") as f:
+        f.write("\n".join(keywords[1:]))
 
-    return None
+    return next_keyword
+
