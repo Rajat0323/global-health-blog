@@ -3,6 +3,8 @@ from duplicate_checker import is_duplicate
 from ai_writer import generate_article
 from publisher import save_post
 from config import LOG_FILE
+from indexnow import submit_indexnow
+
 import csv
 from datetime import datetime
 
@@ -14,8 +16,11 @@ def log_keyword(keyword):
 
 
 def main():
+    print("Automation started")
+
     # Get next unused keyword
     keyword = get_next_keyword()
+    print("Keyword:", keyword)
 
     if not keyword:
         print("No new keywords available.")
@@ -31,22 +36,19 @@ def main():
     # Generate AI content
     content = generate_article(keyword)
 
-    # Save markdown file
+    # Save markdown file → slug CREATED HERE
     slug = save_post(keyword, content)
+    print("Slug created:", slug)
 
     # Log keyword
     log_keyword(keyword)
 
-    # ❌ STATIC SITEMAP REMOVED
-    # Dynamic sitemap handled by Next.js (pages/sitemap.xml.js)
+    # ✅ IndexNow submit (MUST be inside main)
+    new_url = f"https://symptomsinsight.com/blog/{slug}"
+    submit_indexnow([new_url])
 
-    print("Published:", slug)
+    print("Published & IndexNow pinged:", new_url)
 
-from indexnow import submit_indexnow
-
-# After publish
-new_url = f"https://symptomsinsight.com/blog/{slug}"
-submit_indexnow([new_url])
 
 if __name__ == "__main__":
     main()
