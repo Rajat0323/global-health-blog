@@ -18,7 +18,7 @@ def get_processed_keywords():
 
 
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
-KEYWORDS_FILE = os.path.join(BASE_DIR, "keywords.txt")
+KEYWORDS_FILE = os.path.join(BASE_DIR,"data", "keywords.txt")
 
 def get_next_keyword():
     with open(KEYWORDS_FILE, "r", encoding="utf-8") as f:
